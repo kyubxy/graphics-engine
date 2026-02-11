@@ -18,9 +18,12 @@ public class Vector2 {
 		this.y = y;
 	}
 
+	public Vector2() {
+		this(0);
+	}
+
 	public Vector2(float a) {
-		this.x = a;
-		this.y = a;
+		this(a, a);
 	}
 
 	public final static Vector2 zero = new Vector2(0);

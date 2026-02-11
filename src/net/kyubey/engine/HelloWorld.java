@@ -2,6 +2,7 @@ package net.kyubey.engine;
 
 import net.kyubey.engine.allocation.EntityPool;
 import net.kyubey.engine.graphics.RigidTransformComponent;
+import net.kyubey.engine.graphics.Vector2;
 import org.lwjgl.glfw.*;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import org.lwjgl.opengl.*;
@@ -20,19 +21,28 @@ public class HelloWorld {
 
 	private RigidTransformComponent[] rigidbodies = new RigidTransformComponent[100];
 
-	private ComponentStore store;
-
 	private Integer entity1;
+
+	private RigidTransformComponent attachRigidTransformComponent(Integer entity) {
+		var rtc = new RigidTransformComponent();
+		this.rigidbodies[entity] = rtc;
+		return rtc;
+	}
+
+	private void makeNewEntity(float x, float y){
+		var entity = pool.createEntity();
+		var rtc = attachRigidTransformComponent(entity);
+		rtc.position = new Vector2(x, y);
+	}
 
 	public HelloWorld() {
 		// configure factories in component store
 
+		int entityCount = 8;
 
-		entity1 = pool.createEntity();
-		pool.createEntity();
-		pool.createEntity();
-		pool.createEntity();
-		pool.createEntity();
+		for (int i = 0; i < entityCount; i++){
+			makeNewEntity(80 + i * (i % 2 == 0 ? 40 : 50), 80);
+		}
 	}
 
     public void run() {
@@ -95,7 +105,8 @@ public class HelloWorld {
         glColor3f(1.0f, 0.2f, 0.2f);
 
 		pool.iterateActive(entityId -> {
-			drawSquare2(entityId * 40, 100, 30);
+			var pos = rigidbodies[entityId].position;
+			drawSquare2(pos.x, pos.y, 30);
 		});
     }
 

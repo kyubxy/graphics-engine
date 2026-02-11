@@ -8,5 +8,8 @@ public class RigidTransformComponent {
 	public Vector2 position;
 	public float rotation;
 
-	public RigidTransformComponent() {}
+	public RigidTransformComponent() {
+		position = new Vector2();
+		rotation = 0;
+	}
 }
