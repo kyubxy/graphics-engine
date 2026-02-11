@@ -37,14 +37,14 @@ public class ComponentSiloStore {
 	private void allocateSilos(ComponentFactory[] factoryArray) {
 		for (var factory : factoryArray) {
 			// TODO: the silo store should have a mitigation against full silos.
-			var silo = factory.allocateSilo(SILO_ITEM_COUNT); 
+			var silo = factory.createSilo(SILO_ITEM_COUNT); 
 			componentSilos.put(factory.getComponentType(), silo);
 		}
 	}
 
 	public <T> T attachComponentToEntity(Integer entity, Class<T> componentType) {
 		ComponentFactory factory = getFactory(componentType);
-		T component = componentType.cast(factory.allocateComponent());
+		T component = componentType.cast(factory.createComponent());
 
 		var silo = getSilo(componentType);
 		silo[entity] = component;

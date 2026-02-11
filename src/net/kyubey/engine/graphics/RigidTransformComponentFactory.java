@@ -1,7 +1,6 @@
 package net.kyubey.engine.graphics;
 
 import net.kyubey.engine.allocation.ComponentFactory;
-import net.kyubey.engine.allocation.Components;
 
 /**
  *
@@ -9,12 +8,12 @@ import net.kyubey.engine.allocation.Components;
  */
 public class RigidTransformComponentFactory implements ComponentFactory<RigidTransformComponent> {
 	@Override
-	public Object[] allocateSilo(int siloSize) {
+	public Object[] createSilo(int siloSize) {
 		return new RigidTransformComponent[siloSize];
 	}
 
 	@Override
-	public RigidTransformComponent allocateComponent() {
+	public RigidTransformComponent createComponent() {
 		return new RigidTransformComponent();
 	}
 

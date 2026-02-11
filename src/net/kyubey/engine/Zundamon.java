@@ -2,7 +2,6 @@ package net.kyubey.engine;
 
 import net.kyubey.engine.allocation.ComponentFactory;
 import net.kyubey.engine.allocation.ComponentSiloStore;
-import net.kyubey.engine.allocation.Components;
 import net.kyubey.engine.allocation.EntityPool;
 import net.kyubey.engine.graphics.RigidTransformComponent;
 import net.kyubey.engine.graphics.RigidTransformComponentFactory;
@@ -67,7 +66,7 @@ public class Zundamon {
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-        window = glfwCreateWindow(WIDTH, HEIGHT, "LWJGL Square", NULL, NULL);
+        window = glfwCreateWindow(WIDTH, HEIGHT, "zundamon", NULL, NULL);
         if (window == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
