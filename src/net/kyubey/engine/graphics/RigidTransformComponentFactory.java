@@ -1,7 +1,7 @@
 package net.kyubey.engine.graphics;
 
 import net.kyubey.engine.allocation.ComponentFactory;
-import net.kyubey.engine.allocation.ComponentSilo;
+import net.kyubey.engine.allocation.Components;
 
 /**
  *
@@ -10,7 +10,7 @@ import net.kyubey.engine.allocation.ComponentSilo;
 public class RigidTransformComponentFactory implements ComponentFactory<RigidTransformComponent> {
 	@Override
 	public String getSiloIdentifier() {
-		return ComponentSilo.RIGID_TRANSFORM.getKey();
+		return Components.RIGID_TRANSFORM;
 	}
 
 	@Override

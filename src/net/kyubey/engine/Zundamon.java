@@ -1,7 +1,11 @@
 package net.kyubey.engine;
 
+import net.kyubey.engine.allocation.ComponentFactory;
+import net.kyubey.engine.allocation.ComponentSiloStore;
+import net.kyubey.engine.allocation.Components;
 import net.kyubey.engine.allocation.EntityPool;
 import net.kyubey.engine.graphics.RigidTransformComponent;
+import net.kyubey.engine.graphics.RigidTransformComponentFactory;
 import net.kyubey.engine.graphics.Vector2;
 import org.lwjgl.glfw.*;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -11,37 +15,36 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-public class HelloWorld {
+public class Zundamon {
 
     private long window;
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
 
-	private EntityPool pool = new EntityPool();
+	private final EntityPool entityPool;
 
-	private RigidTransformComponent[] rigidbodies = new RigidTransformComponent[100];
+	private final ComponentSiloStore componentStore;
 
-	private Integer entity1;
+	public Zundamon() {
+		// setup
 
-	private RigidTransformComponent attachRigidTransformComponent(Integer entity) {
-		var rtc = new RigidTransformComponent();
-		this.rigidbodies[entity] = rtc;
-		return rtc;
-	}
+		this.entityPool = new EntityPool();
 
-	private void makeNewEntity(float x, float y){
-		var entity = pool.createEntity();
-		var rtc = attachRigidTransformComponent(entity);
-		rtc.position = new Vector2(x, y);
-	}
+		var factories = new ComponentFactory[] {
+			new RigidTransformComponentFactory()
+		};
+		this.componentStore = new ComponentSiloStore(factories);
 
-	public HelloWorld() {
-		// configure factories in component store
-
-		int entityCount = 8;
-
-		for (int i = 0; i < entityCount; i++){
-			makeNewEntity(80 + i * (i % 2 == 0 ? 40 : 50), 80);
+		// spam entities
+		{
+			int entityCount = 8;
+			for (int i = 0; i < entityCount; i++){
+				var entity = entityPool.createEntity();
+				var rigidTransform = (RigidTransformComponent)componentStore.attachComponentToEntity(
+						entity, Components.RIGID_TRANSFORM
+				);
+				rigidTransform.position = new Vector2(60 + i * 40, 80);
+			}
 		}
 	}
 
@@ -104,8 +107,10 @@ public class HelloWorld {
     private void draw() {
         glColor3f(1.0f, 0.2f, 0.2f);
 
-		pool.iterateActive(entityId -> {
-			var pos = rigidbodies[entityId].position;
+		entityPool.iterateActive(entityId -> {
+			var transformComponent = (RigidTransformComponent)componentStore
+					.getComponentFromEntity(Components.RIGID_TRANSFORM, entityId);
+			Vector2 pos = transformComponent.position;
 			drawSquare2(pos.x, pos.y, 30);
 		});
     }
@@ -120,7 +125,7 @@ public class HelloWorld {
 	}
 
     public static void main(String[] args) {
-        new HelloWorld().run();
+        new Zundamon().run();
     }
 }
 
