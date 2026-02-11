@@ -11,7 +11,7 @@ package net.kyubey.engine.allocation;
  * @param <T>
  */
 public interface ComponentFactory<T> {
-	String getSiloIdentifier();
+	Class<T> getComponentType();
 	Object[] allocateSilo(int siloSize);
 	T allocateComponent();
 }

@@ -9,11 +9,6 @@ import net.kyubey.engine.allocation.Components;
  */
 public class RigidTransformComponentFactory implements ComponentFactory<RigidTransformComponent> {
 	@Override
-	public String getSiloIdentifier() {
-		return Components.RIGID_TRANSFORM;
-	}
-
-	@Override
 	public Object[] allocateSilo(int siloSize) {
 		return new RigidTransformComponent[siloSize];
 	}
@@ -21,5 +16,10 @@ public class RigidTransformComponentFactory implements ComponentFactory<RigidTra
 	@Override
 	public RigidTransformComponent allocateComponent() {
 		return new RigidTransformComponent();
+	}
+
+	@Override
+	public Class<RigidTransformComponent> getComponentType() {
+		return RigidTransformComponent.class;
 	}
 }

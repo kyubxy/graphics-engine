@@ -40,9 +40,8 @@ public class Zundamon {
 			int entityCount = 8;
 			for (int i = 0; i < entityCount; i++){
 				var entity = entityPool.createEntity();
-				var rigidTransform = (RigidTransformComponent)componentStore.attachComponentToEntity(
-						entity, Components.RIGID_TRANSFORM
-				);
+				RigidTransformComponent rigidTransform = componentStore
+						.attachComponentToEntity(entity, RigidTransformComponent.class);
 				rigidTransform.position = new Vector2(60 + i * 40, 80);
 			}
 		}
@@ -108,8 +107,8 @@ public class Zundamon {
         glColor3f(1.0f, 0.2f, 0.2f);
 
 		entityPool.iterateActive(entityId -> {
-			var transformComponent = (RigidTransformComponent)componentStore
-					.getComponentFromEntity(Components.RIGID_TRANSFORM, entityId);
+			var transformComponent = componentStore
+					.getComponentFromEntity(RigidTransformComponent.class, entityId);
 			Vector2 pos = transformComponent.position;
 			drawSquare2(pos.x, pos.y, 30);
 		});
